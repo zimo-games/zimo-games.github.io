@@ -26,7 +26,7 @@
     --badge-testing-bg: #fff2d9;
     --badge-testing-text: #93650a;
     --badge-proto-bg: #eef0f2;
-    --badge-proto-text: #5a5f66;
+    --badge-proto-text: #5d7fb0;
     --badge-dead-bg: #f0f0f1;
     --badge-dead-text: #9a9ea3;
 
@@ -72,7 +72,7 @@
   }
 
   .hero .logo {
-    height: 40px;
+    height: 94px;
     margin-bottom: 28px;
   }
 
@@ -236,33 +236,43 @@
   }
 
   /* ---------- Experiments (tier: experiment) ---------- */
+  /* Same card style as "testing", just smaller and more per row. */
 
-  .experiment-list { display: flex; flex-direction: column; }
-  .experiment-row {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
+  .experiment-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
-    padding: 16px 0;
-    border-bottom: 1px solid var(--border);
   }
-  .experiment-row:last-child { border-bottom: none; }
-  .experiment-main { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
-  .experiment-row h3 {
-    font-size: 15px;
-    font-weight: 600;
-    font-family: 'Inter', sans-serif;
+  .card-experiment {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
   }
-  .experiment-row p.desc {
-    font-size: 14px;
-    color: var(--muted);
-    margin: 0;
+  .card-experiment .media {
+    aspect-ratio: 16 / 10;
+    background: var(--badge-dead-bg);
+    overflow: hidden;
   }
-  .experiment-row .stores { margin-top: 0; flex-shrink: 0; }
-  .experiment-row .store-link { padding: 0; }
+  .card-experiment .media img { width: 100%; height: 100%; object-fit: cover; }
+  .card-experiment .body { padding: 14px 16px 16px; }
+  .card-experiment .title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+  .card-experiment h3 { font-size: 14.5px; }
+  .card-experiment p.desc { color: var(--muted); font-size: 13px; }
+  .card-experiment .stores { margin-top: 10px; }
+  .card-experiment .store-link { padding: 5px 8px; font-size: 12px; }
 
-  @media (max-width: 560px) {
-    .experiment-row { flex-direction: column; gap: 8px; }
+  @media (max-width: 620px) {
+    .experiment-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 420px) {
+    .experiment-grid { grid-template-columns: 1fr; }
   }
 
   /* ---------- Footer ---------- */
@@ -310,11 +320,12 @@
        <img class="logo" src="images/zimo-logo.svg" alt="Zimo">
   -->
   <header class="hero">
-    <div class="logo-text">Zimo</div>
-    <h1>We're a small studio making mobile games we'd actually want to play.</h1>
+    <img class="logo" src="images/zimo-logo.png" alt="Zimo">
+    <h1>On a mission to create the next mega hit in mobile gaming.</h1>
     <p class="tagline">
-      Zimo is an independent mobile game studio. We design, prototype, and test
-      new game ideas constantly — most don't make it, some do. Here's where things stand.
+      Zimo is an independent mobile game studio focused on Hybrid Casual and Mid-Core games.
+      We specialize in rapid prototyping and market-driven development, using short development cycles to quickly explore, validate, and refine game concepts.
+      We've worked with Neptune, Supercent and Voodoo across a range of mobile game projects.
     </p>
   </header>
 
@@ -333,7 +344,7 @@
   <!-- ============ EXPERIMENTS ============ -->
   <section class="tier" id="experiments">
     <h2>Also tried</h2>
-    <div class="experiment-list" id="experiments-container"></div>
+    <div class="experiment-grid" id="experiments-container"></div>
   </section>
 
   <!-- ============ FOOTER ============ -->
@@ -342,16 +353,15 @@
       <div>
         <h4>Zimo</h4>
         <p style="margin:0; color: var(--muted); font-size: 14.5px; max-width: 260px;">
-          A small mobile game studio. New games, tested and shipped in the open.
+          Independent mobile game studio.
         </p>
       </div>
       <div>
         <h4>Contact</h4>
         <div class="links">
           <!-- Replace with your real contact details -->
-          <a class="foot-link" href="mailto:hello@zimo.games">hello@zimo.games</a>
-          <a class="foot-link" href="#" target="_blank" rel="noopener">Twitter / X</a>
-          <a class="foot-link" href="#" target="_blank" rel="noopener">Instagram</a>
+          <a class="foot-link" href="mailto:zimogamesco@gmail.com">Email</a>
+          <a class="foot-link" href="https://www.linkedin.com/company/zimo-games/" target="_blank" rel="noopener">LinkedIn</a>
         </div>
       </div>
     </div>
@@ -383,33 +393,40 @@ const games = [
     tier: "featured",
     badge: "soft",
     badgeLabel: "Soft Launch",
-    description: "Replace this with a real one or two sentence description of Upside Down — what you do in it and what makes it fun.",
+    description: "Upside Down has been the team's primary project and the foundation of the studio's formation. Currently in soft-launch phase by <strong>Supercent</strong>, the game takes you to a mysterious adventure set in Ravenwood, where exploration, crafting, upgrading, and survival come together in a world inspired by Stranger Things.",
     image: "images/upside-down.png",
-    appStore: "",
-    googlePlay: ""
+    appStore: "https://apps.apple.com/us/app/upside-down-strange-world/id6751249961",
+    googlePlay: "https://play.google.com/store/apps/details?id=com.lilyxgame.zimo.upsidedown&hl=en"
   },
 
   // Example "in test" entry — duplicate this block for each game in testing.
   {
-    name: "Example In-Test Game",
+    name: "Werewolf Hero",
     tier: "testing",
     badge: "testing",
     badgeLabel: "In Testing",
-    description: "Short description of what's being tested.",
-    image: "images/placeholder.png",
-    appStore: "",
-    googlePlay: ""
+    description: "An arcade RPG where you explore, fight enemies, and grow stronger—with a fun twist that makes it more than an ordinary idle game. Play to discover it!",
+    image: "images/werewolf.png",
+    googlePlay: "https://play.google.com/store/apps/details?id=com.zimogames.werewolf"
   },
 
+  {
+    name: "Little Miner",
+    tier: "testing",
+    badge: "proto",
+    badgeLabel: "Prototyping",
+    description: "An idle game currently under development at Zimo. More details will be revealed upon launch.",
+    image: "images/miner.png"
+  },
   // Example "experiment" entry — duplicate this block for each retired prototype.
   {
-    name: "Example Old Prototype",
+    name: "Mint Heroes",
     tier: "experiment",
     badge: "dead",
     badgeLabel: "Dead",
-    description: "One line on what it was.",
-    appStore: "",
-    googlePlay: ""
+    description: "Made in collaboration with TRBO FAST TOOLS INC, a fast-paced tower-defense game with roguelite progression, featuring diverse heroes, enemies, abilities, and more.",
+    image: "images/mint.png",
+    googlePlay: "https://play.google.com/store/apps/details?id=com.aredstudio.mintheroes&hl=en"
   }
 ];
 
@@ -461,14 +478,20 @@ function renderTesting(game) {
 }
 
 function renderExperiment(game) {
+  const media = game.image
+    ? `<div class="media"><img src="${game.image}" alt="${game.name}" onerror="this.parentElement.style.display='none'"></div>`
+    : "";
   return `
-    <div class="experiment-row">
-      <div class="experiment-main">
-        <h3>${game.name}</h3>
-        <span class="badge ${game.badge}">${game.badgeLabel}</span>
+    <div class="card-experiment">
+      ${media}
+      <div class="body">
+        <div class="title-row">
+          <h3>${game.name}</h3>
+          <span class="badge ${game.badge}">${game.badgeLabel}</span>
+        </div>
         <p class="desc">${game.description || ""}</p>
+        <div class="stores">${storeLinksHTML(game)}</div>
       </div>
-      <div class="stores">${storeLinksHTML(game)}</div>
     </div>`;
 }
 
