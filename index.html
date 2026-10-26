@@ -385,6 +385,7 @@
      image        - path to an image in /images (optional for "experiment" tier)
      appStore     - App Store URL (optional — omit or leave "" to hide the button)
      googlePlay   - Google Play URL (optional — omit or leave "" to hide the button)
+     crazyGames   - CrazyGames URL (optional — omit or leave "" to hide the button)
    ====================================================================== */
 
 const games = [
@@ -407,7 +408,8 @@ const games = [
     badgeLabel: "In Testing",
     description: "An arcade RPG where you explore, fight enemies, and grow stronger—with a fun twist that makes it more than an ordinary idle game. Play to discover it!",
     image: "images/werewolf.png",
-    googlePlay: "https://play.google.com/store/apps/details?id=com.zimogames.werewolf"
+    googlePlay: "https://play.google.com/store/apps/details?id=com.zimogames.werewolf",
+    crazyGames: "https://www.crazygames.com/game/werewolf-hero-arcade-rpg" // TODO: placeholder — replace with the real CrazyGames URL
   },
 
   {
@@ -436,6 +438,8 @@ const APP_STORE_ICON = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M1
 
 const GOOGLE_PLAY_ICON = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.6 2.3c-.4.3-.6.8-.6 1.4v16.6c0 .6.2 1.1.6 1.4l.1.1L13 12.5v-.1L3.7 2.2l-.1.1zM16 15.5l-2.6-2.6v-.1L16 10.2l3.2 1.8c.9.5.9 1.4 0 1.9l-3.2 1.6zM4.3 21.8l8.7-8.7 2.5 2.5-9.7 5.5c-.4.2-.9.2-1.5-.3zm8.7-9.6L4.3 3.5c.5-.4 1-.4 1.5-.2l9.7 5.5-2.5 2.4z"/></svg>`;
 
+const CRAZY_GAMES_ICON = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.5 6h9A5.5 5.5 0 0 1 22 11.5v1A5.5 5.5 0 0 1 16.5 18c-1.4 0-2.4-.7-3.2-1.6l-.5-.6h-1.6l-.5.6C9.9 17.3 8.9 18 7.5 18A5.5 5.5 0 0 1 2 12.5v-1A5.5 5.5 0 0 1 7.5 6zM7 9v2H5v2h2v2h2v-2h2v-2H9V9H7zm9.5 0a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5zm-2 3a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5zm4 0a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5z"/></svg>`;
+
 function storeLinksHTML(game) {
   let html = "";
   if (game.appStore) {
@@ -443,6 +447,9 @@ function storeLinksHTML(game) {
   }
   if (game.googlePlay) {
     html += `<a class="store-link" href="${game.googlePlay}" target="_blank" rel="noopener">${GOOGLE_PLAY_ICON}Google Play</a>`;
+  }
+  if (game.crazyGames) {
+    html += `<a class="store-link" href="${game.crazyGames}" target="_blank" rel="noopener">${CRAZY_GAMES_ICON}CrazyGames</a>`;
   }
   return html;
 }
