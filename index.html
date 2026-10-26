@@ -9,7 +9,7 @@
      fx-nav     sticky blurred nav after scrolling past the hero
      fx-bighero bigger, tighter hero headline
      fx-arrow   arrow on store buttons that slides on hover -->
-<html lang="en" class="fx-hover fx-reveal fx-pulse fx-partners fx-glow fx-grid fx-nav fx-bighero fx-arrow theme-dark">
+<html lang="en" class="fx-hover fx-reveal fx-pulse fx-partners fx-glow fx-grid fx-nav fx-bighero fx-arrow">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,13 +32,16 @@
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
 <script>
-  // Theme: dark by default. The light/dark switch saves the visitor's choice.
+  // Theme: follows the system setting until the visitor uses the light/dark switch,
+  // after which their choice is saved and wins.
+  const systemDark = window.matchMedia("(prefers-color-scheme: dark)");
   function setTheme(theme) {
-    const dark = theme !== "light";
+    const dark = theme ? theme === "dark" : systemDark.matches;
     document.documentElement.classList.toggle("theme-dark", dark);
     document.querySelector('meta[name="theme-color"]').content = dark ? "#0e1013" : "#fafbfa";
   }
   setTheme(localStorage.getItem("theme"));
+  systemDark.addEventListener("change", () => setTheme(localStorage.getItem("theme")));
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -72,7 +75,7 @@
     --dot: rgba(20, 23, 26, 0.09);
   }
 
-  /* ---------- Dark palette (default; .theme-dark on <html>) ---------- */
+  /* ---------- Dark palette (.theme-dark on <html>) ---------- */
 
   :root.theme-dark {
     color-scheme: dark;
