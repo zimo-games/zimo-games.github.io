@@ -1,10 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- FX classes on <html> switch each visual extra on. Delete a class to turn that extra off:
+     fx-hover   card lift + image zoom on hover
+     fx-reveal  sections/cards fade up on scroll
+     fx-pulse   "live" pulse on Soft Launch / In Testing badge dots
+     fx-partners  "Worked with" row in the hero
+     fx-glow    soft accent glow behind the hero
+     fx-grid    faint dot grid behind the hero
+     fx-nav     sticky blurred nav after scrolling past the hero
+     fx-bighero bigger, tighter hero headline
+     fx-dark    dark mode when the visitor's system is dark
+     fx-arrow   arrow on store buttons that slides on hover -->
+<html lang="en" class="fx-hover fx-reveal fx-pulse fx-partners fx-glow fx-grid fx-nav fx-bighero fx-dark fx-arrow">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zimo — Mobile Game Studio</title>
 <meta name="description" content="Zimo is a small mobile game studio. See what we're building, testing, and have tried along the way.">
+<meta name="theme-color" content="#fafbfa">
+
+<!-- Link previews (LinkedIn, Discord, WhatsApp, Slack, X...) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Zimo">
+<meta property="og:title" content="Zimo — Mobile Game Studio">
+<meta property="og:description" content="Independent mobile game studio focused on Hybrid Casual and Mid-Core games. See what we're building, testing, and have tried along the way.">
+<meta property="og:url" content="https://zimo-games.github.io/">
+<meta property="og:image" content="https://zimo-games.github.io/images/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/png" href="images/favicon.png">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+<script>
+  // Dark mode: follows the system setting while fx-dark is on.
+  (function () {
+    const root = document.documentElement;
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    function applyTheme() {
+      root.classList.toggle("theme-dark", root.classList.contains("fx-dark") && mq.matches);
+    }
+    mq.addEventListener("change", applyTheme);
+    applyTheme();
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -32,7 +71,41 @@
 
     --radius: 14px;
     --content-width: 720px;
+    --shadow-hover: 0 14px 34px -14px rgba(20, 23, 26, 0.22);
+    --glow: rgba(74, 59, 240, 0.10);
+    --dot: rgba(20, 23, 26, 0.09);
   }
+
+  /* ---------- Dark palette (fx-dark) ---------- */
+
+  :root.theme-dark {
+    color-scheme: dark;
+    --bg: #0e1013;
+    --surface: #16191d;
+    --text: #eceef1;
+    --muted: #9aa1a9;
+    --faint: #6b7178;
+    --border: #262a30;
+    --accent: #8579ff;
+    --accent-soft: rgba(133, 121, 255, 0.14);
+
+    --badge-global-bg: rgba(52, 168, 98, 0.16);
+    --badge-global-text: #63d18f;
+    --badge-soft-bg: rgba(133, 121, 255, 0.18);
+    --badge-soft-text: #aea6ff;
+    --badge-testing-bg: rgba(230, 170, 40, 0.15);
+    --badge-testing-text: #f0c35e;
+    --badge-proto-bg: rgba(93, 127, 176, 0.20);
+    --badge-proto-text: #93b3e3;
+    --badge-dead-bg: rgba(255, 255, 255, 0.06);
+    --badge-dead-text: #7c838b;
+
+    --shadow-hover: 0 14px 34px -14px rgba(0, 0, 0, 0.7);
+    --glow: rgba(133, 121, 255, 0.16);
+    --dot: rgba(255, 255, 255, 0.07);
+  }
+  .theme-dark .logo, .theme-dark .nav-logo { filter: brightness(1.45) saturate(1.1); }
+  body { transition: background-color 0.3s ease, color 0.3s ease; }
 
   * { box-sizing: border-box; }
 
@@ -308,11 +381,189 @@
     font-size: 13px;
     color: var(--faint);
   }
+
+  /* =====================================================================
+     FX — each block is switched on by its class on <html>
+     ===================================================================== */
+
+  /* ---------- fx-glow / fx-grid: hero background ---------- */
+
+  body { position: relative; }
+  .hero-bg {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 760px;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+  }
+  .hero-bg .glow, .hero-bg .grid { position: absolute; inset: 0; display: none; }
+  .fx-glow .hero-bg .glow {
+    display: block;
+    background:
+      radial-gradient(42% 46% at 22% 18%, var(--glow), transparent 70%),
+      radial-gradient(38% 40% at 82% 8%, var(--glow), transparent 70%);
+  }
+  .fx-grid .hero-bg .grid {
+    display: block;
+    background-image: radial-gradient(var(--dot) 1px, transparent 1.2px);
+    background-size: 22px 22px;
+    -webkit-mask-image: radial-gradient(70% 60% at 50% 0%, #000 30%, transparent 100%);
+            mask-image: radial-gradient(70% 60% at 50% 0%, #000 30%, transparent 100%);
+  }
+
+  /* ---------- fx-bighero ---------- */
+
+  .fx-bighero .hero h1 {
+    font-size: clamp(34px, 6.4vw, 52px);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    max-width: 640px;
+    font-weight: 700;
+  }
+  .fx-bighero .hero p.tagline { margin-top: 22px; }
+
+  /* ---------- fx-partners ---------- */
+
+  .partners { display: none; }
+  .fx-partners .partners {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px 28px;
+    margin-top: 36px;
+  }
+  .fx-partners .partners-sentence { display: none; }
+  .partners .label {
+    font-size: 12.5px;
+    color: var(--faint);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .partners .partner {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 19px;
+    letter-spacing: -0.02em;
+    color: var(--faint);
+    transition: color 0.2s ease;
+  }
+  .partners .partner:hover { color: var(--text); }
+
+  /* ---------- fx-nav: sticky blurred nav ---------- */
+
+  .site-nav { display: none; }
+  .fx-nav .site-nav {
+    display: block;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(170%);
+            backdrop-filter: blur(14px) saturate(170%);
+    border-bottom: 1px solid var(--border);
+    transform: translateY(-100%);
+    transition: transform 0.35s cubic-bezier(.2, .7, .2, 1);
+  }
+  .fx-nav .site-nav.show { transform: none; }
+  .site-nav .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+  }
+  .site-nav .nav-logo { height: 26px; width: auto; }
+  .site-nav .nav-links { display: flex; gap: 22px; }
+  .site-nav .nav-links a {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .site-nav .nav-links a:hover { color: var(--text); }
+  section.tier, footer { scroll-margin-top: 72px; }
+
+  /* ---------- fx-pulse: live badge dots ---------- */
+
+  .fx-pulse .badge.global::before,
+  .fx-pulse .badge.soft::before,
+  .fx-pulse .badge.testing::before {
+    animation: badge-pulse 2.2s ease-out infinite;
+  }
+  @keyframes badge-pulse {
+    0%   { box-shadow: 0 0 0 0 color-mix(in srgb, currentColor 55%, transparent); }
+    70%  { box-shadow: 0 0 0 6px transparent; }
+    100% { box-shadow: 0 0 0 0 transparent; }
+  }
+
+  /* ---------- fx-reveal: fade up on scroll ----------
+     Uses `translate` (not `transform`) so it doesn't fight the hover lift. */
+
+  .fx-reveal .reveal { opacity: 0; translate: 0 14px; }
+  .fx-reveal .reveal.in {
+    animation: reveal-in 0.7s cubic-bezier(.2, .7, .2, 1) both;
+    animation-delay: var(--delay, 0ms);
+  }
+  @keyframes reveal-in {
+    from { opacity: 0; translate: 0 14px; }
+    to   { opacity: 1; translate: 0 0; }
+  }
+
+  /* ---------- fx-hover: card lift + image zoom ---------- */
+
+  .card { transition: transform 0.3s cubic-bezier(.2, .7, .2, 1), box-shadow 0.3s ease, border-color 0.3s ease; }
+  .card .media img { transition: transform 0.6s cubic-bezier(.2, .7, .2, 1); }
+  .fx-hover .card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+    border-color: color-mix(in srgb, var(--border) 60%, var(--accent));
+  }
+  .fx-hover .card:hover .media img { transform: scale(1.035); }
+
+  /* ---------- fx-arrow: store button arrow ---------- */
+
+  .store-link .arrow { display: none; }
+  .fx-arrow .store-link .arrow {
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    margin-left: -2px;
+    opacity: 0.55;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .fx-arrow .store-link:hover .arrow { transform: translate(2px, -2px); opacity: 1; }
+
+  /* ---------- Featured video (only when a game has `video`) ---------- */
+
+  .media video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* ---------- Respect "reduce motion" ---------- */
+
+  @media (prefers-reduced-motion: reduce) {
+    .fx-reveal .reveal { opacity: 1; translate: none; animation: none; }
+    .fx-pulse .badge::before { animation: none; }
+    .card, .card .media img, .site-nav { transition: none; }
+  }
 </style>
 </head>
 <body>
 
-<div class="wrap">
+<!-- Hero background (fx-glow / fx-grid) -->
+<div class="hero-bg" aria-hidden="true"><div class="glow"></div><div class="grid"></div></div>
+
+<!-- Sticky nav (fx-nav) — slides in after scrolling past the hero -->
+<nav class="site-nav" aria-label="Main">
+  <div class="wrap">
+    <a href="#top"><img class="nav-logo" src="images/zimo-logo.png" alt="Zimo"></a>
+    <div class="nav-links">
+      <a href="#featured">Games</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap" id="top">
 
   <!-- ============ HERO ============
        Swap the text logo below for an <img> once you drop your logo file
@@ -325,8 +576,15 @@
     <p class="tagline">
       Zimo is an independent mobile game studio focused on Hybrid Casual and Mid-Core games.
       We specialize in rapid prototyping and market-driven development, using short development cycles to quickly explore, validate, and refine game concepts.
-      We've worked with Neptune, Supercent and Voodoo across a range of mobile game projects.
+      <span class="partners-sentence">We've worked with Neptune, Supercent and Voodoo across a range of mobile game projects.</span>
     </p>
+    <!-- fx-partners: replaces the sentence above. Swap the names for logo <img>s if you get them. -->
+    <div class="partners">
+      <span class="label">Worked with</span>
+      <span class="partner">Neptune</span>
+      <span class="partner">Supercent</span>
+      <span class="partner">Voodoo</span>
+    </div>
   </header>
 
   <!-- ============ FEATURED ============ -->
@@ -348,7 +606,7 @@
   </section>
 
   <!-- ============ FOOTER ============ -->
-  <footer>
+  <footer id="contact">
     <div class="foot-row">
       <div>
         <h4>Zimo</h4>
@@ -386,6 +644,8 @@
      appStore     - App Store URL (optional — omit or leave "" to hide the button)
      googlePlay   - Google Play URL (optional — omit or leave "" to hide the button)
      crazyGames   - CrazyGames URL (optional — omit or leave "" to hide the button)
+     video        - short muted gameplay loop, e.g. "images/upside-down.mp4" (optional;
+                    plays instead of the image, which is used as its poster)
    ====================================================================== */
 
 const games = [
@@ -440,24 +700,34 @@ const GOOGLE_PLAY_ICON = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="
 
 const CRAZY_GAMES_ICON = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.5 6h9A5.5 5.5 0 0 1 22 11.5v1A5.5 5.5 0 0 1 16.5 18c-1.4 0-2.4-.7-3.2-1.6l-.5-.6h-1.6l-.5.6C9.9 17.3 8.9 18 7.5 18A5.5 5.5 0 0 1 2 12.5v-1A5.5 5.5 0 0 1 7.5 6zM7 9v2H5v2h2v2h2v-2h2v-2H9V9H7zm9.5 0a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5zm-2 3a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5zm4 0a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5z"/></svg>`;
 
+const ARROW_ICON = `<svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5l5-5M4.5 3.5h4v4"/></svg>`;
+
 function storeLinksHTML(game) {
   let html = "";
   if (game.appStore) {
-    html += `<a class="store-link" href="${game.appStore}" target="_blank" rel="noopener">${APP_STORE_ICON}App Store</a>`;
+    html += `<a class="store-link" href="${game.appStore}" target="_blank" rel="noopener">${APP_STORE_ICON}App Store${ARROW_ICON}</a>`;
   }
   if (game.googlePlay) {
-    html += `<a class="store-link" href="${game.googlePlay}" target="_blank" rel="noopener">${GOOGLE_PLAY_ICON}Google Play</a>`;
+    html += `<a class="store-link" href="${game.googlePlay}" target="_blank" rel="noopener">${GOOGLE_PLAY_ICON}Google Play${ARROW_ICON}</a>`;
   }
   if (game.crazyGames) {
-    html += `<a class="store-link" href="${game.crazyGames}" target="_blank" rel="noopener">${CRAZY_GAMES_ICON}CrazyGames</a>`;
+    html += `<a class="store-link" href="${game.crazyGames}" target="_blank" rel="noopener">${CRAZY_GAMES_ICON}CrazyGames${ARROW_ICON}</a>`;
   }
   return html;
 }
 
+function mediaHTML(game, lazy) {
+  if (game.video) {
+    return `<div class="media"><video src="${game.video}" poster="${game.image || ""}" autoplay muted loop playsinline preload="metadata"></video></div>`;
+  }
+  if (!game.image) return "";
+  return `<div class="media"><img src="${game.image}" alt="${game.name}"${lazy ? ' loading="lazy"' : ""} onerror="this.parentElement.style.display='none'"></div>`;
+}
+
 function renderFeatured(game) {
   return `
-    <div class="card-featured">
-      <div class="media"><img src="${game.image}" alt="${game.name}" onerror="this.parentElement.style.display='none'"></div>
+    <div class="card card-featured reveal">
+      ${mediaHTML(game, false)}
       <div class="body">
         <div class="title-row">
           <h3>${game.name}</h3>
@@ -471,8 +741,8 @@ function renderFeatured(game) {
 
 function renderTesting(game) {
   return `
-    <div class="card-testing">
-      <div class="media"><img src="${game.image}" alt="${game.name}" onerror="this.parentElement.style.display='none'"></div>
+    <div class="card card-testing reveal">
+      ${mediaHTML(game, true)}
       <div class="body">
         <div class="title-row">
           <h3>${game.name}</h3>
@@ -485,12 +755,9 @@ function renderTesting(game) {
 }
 
 function renderExperiment(game) {
-  const media = game.image
-    ? `<div class="media"><img src="${game.image}" alt="${game.name}" onerror="this.parentElement.style.display='none'"></div>`
-    : "";
   return `
-    <div class="card-experiment">
-      ${media}
+    <div class="card card-experiment reveal">
+      ${mediaHTML(game, true)}
       <div class="body">
         <div class="title-row">
           <h3>${game.name}</h3>
@@ -520,6 +787,30 @@ if (testingGames.length === 0) document.getElementById("in-test").style.display 
 if (experimentGames.length === 0) document.getElementById("experiments").style.display = "none";
 
 document.getElementById("year").textContent = new Date().getFullYear();
+
+/* ---------- fx-reveal: fade sections and cards in as they scroll into view ---------- */
+
+document.querySelectorAll(".hero, .tier h2").forEach(el => el.classList.add("reveal"));
+document.querySelectorAll(".testing-grid, .experiment-grid").forEach(grid => {
+  [...grid.children].forEach((card, i) => card.style.setProperty("--delay", `${i * 90}ms`));
+});
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    // Also reveal anything already above the screen (page opened mid-scroll or via #contact)
+    if (entry.isIntersecting || entry.boundingClientRect.top < 0) {
+      entry.target.classList.add("in");
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { rootMargin: "0px 0px -8% 0px" });
+document.querySelectorAll(".reveal").forEach(el => revealObserver.observe(el));
+
+/* ---------- fx-nav: show the sticky nav once the hero is out of view ---------- */
+
+const nav = document.querySelector(".site-nav");
+new IntersectionObserver(([entry]) => {
+  nav.classList.toggle("show", !entry.isIntersecting);
+}, { rootMargin: "-40% 0px 0px 0px" }).observe(document.querySelector(".hero"));
 </script>
 
 </body>
